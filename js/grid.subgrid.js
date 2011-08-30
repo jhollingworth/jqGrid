@@ -7,6 +7,9 @@
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.gnu.org/licenses/gpl-2.0.html
 **/
+
+$.jgrid.createSubGrid = null;
+
 $.jgrid.extend({
 setSubGrid : function () {
 	return this.each(function (){
@@ -89,11 +92,16 @@ addSubGrid : function( pos, sind ) {
 			var tddiv,result , i,cur, sgmap,j,
 			dummy = $("<table cellspacing='0' cellpadding='0' border='0'><tbody></tbody></table>"),
 			trdiv = $("<tr></tr>");
-			for (i = 0; i<ts.p.subGridModel[0].name.length; i++) {
-				tddiv = $("<th class='ui-state-default ui-th-subgrid ui-th-column ui-th-"+ts.p.direction+"'></th>");
-				$(tddiv).html(ts.p.subGridModel[0].name[i]);
-				$(tddiv).width( ts.p.subGridModel[0].width[i]);
-				$(trdiv).append(tddiv);
+			
+			if($.jgrid.createSubGrid) {
+				$.jgrid.createSubGrid(trdiv, sjxml, sbid);
+			} else {
+				for (i = 0; i<ts.p.subGridModel[0].name.length; i++) {
+					tddiv = $("<th class='ui-state-default ui-th-subgrid ui-th-column ui-th-"+ts.p.direction+"'></th>");
+					$(tddiv).html(ts.p.subGridModel[0].name[i]);
+					$(tddiv).width( ts.p.subGridModel[0].width[i]);
+					$(trdiv).append(tddiv);
+				}
 			}
 			$(dummy).append(trdiv);
 			if (sjxml){
